@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\StoreRequest;
+use App\Http\Requests\Api\User\RegisterRequest;
 use App\Services\Api\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,8 +41,8 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logout feito com sucesso']);
     }
 
-    public function register(StoreRequest $request)
+    public function register(RegisterRequest $request)
     {
-        return response()->json(['token' => $this->userService->create($request)], 200);
+        return response()->json(['token' => $this->userService->register($request)], 200);
     }
 }
