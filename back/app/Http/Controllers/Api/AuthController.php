@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\RegisterRequest;
 use App\Services\Api\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -23,11 +24,13 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $token = $request->user()->createToken('auth_token')->plainTextToken;
+            $request->user()->tokens()->delete();
+            $token = $request->user()->createToken('auth_token', expiresAt: Carbon::now()->addMinutes(env('EXPIRATION', 30)));
 
             return response()->json([
                 'user' => $this->userService->byEmail($request->input('email')),
-                'token' => $token
+                'token' => $token->plainTextToken,
+                'expired_at' => $token->accessToken->expires_at,
             ], 200);
         }
 

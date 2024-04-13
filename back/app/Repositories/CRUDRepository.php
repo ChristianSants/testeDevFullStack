@@ -15,12 +15,14 @@ abstract class CRUDRepository {
 
     public function list(): Collection
     {
-        return $this->entity()->get();
+        return $this->entity()->with(['roles' => function ($query) {
+            $query->select('id', 'name');
+        }])->get();
     }
 
     public function find(int $id): Model | NULL
     {
-        return $this->entity()->find($id);
+        return $this->entity()->with(['roles'])->find($id);
     }
 
     public function update(int $id, array $data): bool

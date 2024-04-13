@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\StoreRequest;
+use App\Http\Requests\Api\User\UpdateRequest;
 use App\Services\Api\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -12,6 +14,11 @@ class UserController extends Controller
         protected UserService $userService
     ) {
         //
+    }
+
+    public function me(Request $request)
+    {
+        return $this->userService->find($request->user()->id);
     }
 
     public function index()
@@ -40,7 +47,7 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function update(StoreUpdateRequest $request, int $user)
+    public function update(UpdateRequest $request, int $user)
     {
         $result = $this->userService->update($user, $request);
         if ($result) {

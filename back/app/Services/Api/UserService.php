@@ -4,6 +4,7 @@ namespace App\Services\Api;
 
 use App\Http\Requests\Api\User\RegisterRequest;
 use App\Http\Requests\Api\User\StoreRequest;
+use App\Http\Requests\Api\User\UpdateRequest;
 use App\Models\User;
 use App\Repositories\Api\UserRepository;
 use Exception;
@@ -39,10 +40,20 @@ class UserService
         return $user;
     }
 
-    public function update(int $user, StoreUpdateRequest $request): bool
+    public function update(int $user, UpdateRequest $request): bool
     {
-        if($this->find($user)){
-            return $this->repository->update($user, $request->validated());
+        if($user = $this->find($user)){
+            $validated = $request->validated();
+
+            if($this->repository->update($user->getKey(), $validated)){
+                // se usuário n tiver essa permissao q está sendo passada iremos apagar e inserir a nova permissão
+                if(! $user->hasRole($validated['role'])){
+                    $user->roles()->detach();
+                    $user->assignRole($validated['role']);
+                }
+
+                return true;
+            }
         }
         
         return false;

@@ -21,6 +21,6 @@ class RoleMiddleware
             }
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['error' => 'Não autorizado!'], 401);
     }
 }
