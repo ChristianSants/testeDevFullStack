@@ -28,7 +28,7 @@ class AuthController extends Controller
             $token = $request->user()->createToken('auth_token', expiresAt: Carbon::now()->addMinutes(env('EXPIRATION', 30)));
 
             return response()->json([
-                'user' => $this->userService->byEmail($request->input('email')),
+                'user' => $this->userService->find($request->user()->id),
                 'token' => $token->plainTextToken,
                 'expired_at' => $token->accessToken->expires_at,
             ], 200);

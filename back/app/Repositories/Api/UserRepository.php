@@ -12,9 +12,4 @@ class UserRepository extends CRUDRepository
     {
         return new User();
     }
-
-    public function byEmail($email): ?User
-    {
-        return User::where('email', $email)->first();
-    }
 }

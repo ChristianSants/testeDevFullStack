@@ -92,9 +92,4 @@ class UserService
             throw $e;
         }
     }
-
-    public function byEmail(string $email): ?User
-    {
-        return $this->repository->byEmail($email);
-    }
 }
