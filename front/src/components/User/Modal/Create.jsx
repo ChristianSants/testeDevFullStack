@@ -14,20 +14,20 @@ const CreateModal = ({ show, onClose, onSaved }) => {
     const save = () => {
         setIsLoading(true);
 
-        UserService.create(email, name, password, role).
-            then(response => {
+        UserService.create(email, name, password, role)
+            .then(response => {
                 if (response.status == 201) {
-                    Util.sendMessage('success', 'Sucesso!');
+                    Util.sendMessage('success', 'Criado com sucesso!');
                     onClose()
                     onSaved()
                 } else {
-                    console.log(response);
                     Util.sendMessage('error', 'Algum erro ocorreu!');
                 }
-            }).catch(error => {
-                console.log(error);
-                Util.sendMessage('error', 'Algum erro ocorreu!');
-            }).finally(() => {
+            })
+            .catch(error => {
+                Util.sendErrorMessage(error)
+            })
+            .finally(() => {
                 setIsLoading(false);
             })
     }

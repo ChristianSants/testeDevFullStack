@@ -22,13 +22,12 @@ const UpdateModal = ({ show, onClose, user, onUpdate }) => {
 
         UserService.update(user.id, name, role)
             .then(response => {
-                Util.sendMessage('success', 'Sucesso!');
+                Util.sendMessage('success', 'Atualizado com sucesso!');
                 onUpdate();
                 onClose();
             })
             .catch(error => {
-                console.log(error);
-                Util.sendMessage('error', 'Algum erro ocorreu!');
+                Util.sendErrorMessage(error)
             })
             .finally(() => {
                 setIsLoading(false); 
