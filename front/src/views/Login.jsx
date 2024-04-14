@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, FormControl, Button, Row, Container } from "react-bootstrap";
+import { Form, FormControl, Button, Row, Container, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/Auth";
 import LoadingOverlay from "../components/General/LoadingOverlay";
@@ -52,6 +52,7 @@ const Login = () => {
             <LoadingOverlay loading={isLoading} />
             <Container className="login d-flex align-items-center justify-content-center">
                 <Row>
+                    <Image src="/images/senac_logo.png" fluid className="col-md-6 mb-4" />
                     <h1 className="text-primary">Faça Login</h1>
                     <Form onSubmit={handleSubmit}>
                         <FormControl
@@ -59,6 +60,7 @@ const Login = () => {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
                         />
 
                         <FormControl
@@ -66,9 +68,12 @@ const Login = () => {
                             placeholder="Senha"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
 
-                        <Button type="submit">Logar</Button>
+                        <div className="w-100 text-center">
+                            <Button type="submit" className="rounded mt-3 text-center">Acessar agora</Button>
+                        </div>
                     </Form>
                 </Row>
             </Container>
