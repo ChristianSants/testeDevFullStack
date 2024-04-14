@@ -7,6 +7,7 @@ WORKDIR /var/www/html/front
 COPY . .
 
 # Instale as dependências
+RUN rm -rf node_modules package-lock.json
 RUN npm install
 
 # Construa o aplicativo React para produção
