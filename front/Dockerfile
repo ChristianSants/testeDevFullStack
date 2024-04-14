@@ -1,8 +1,7 @@
-# Use a imagem oficial do Node.js
 FROM node:20.10-alpine
 
 # Defina o diretório de trabalho
-WORKDIR /var/www/frontend
+WORKDIR /var/www/html/front
 
 # Copie os arquivos do código fonte para o contêiner
 COPY . .

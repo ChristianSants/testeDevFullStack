@@ -1,4 +1,3 @@
-# Use a imagem oficial do PHP
 FROM php:8.2-fpm
 
 # Instale as dependências necessárias
@@ -12,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Defina o diretório de trabalho
-WORKDIR /var/www/backend
+WORKDIR /var/www/html/back
 
 # Copie os arquivos do código fonte para o contêiner
 COPY . .
@@ -28,8 +27,10 @@ RUN composer install
 RUN php artisan migrate:fresh
 RUN php artisan db:seed UsersTableSeeder
 
-# Exponha a porta que o servidor PHP-FPM está ouvindo
-EXPOSE 9000
+# Limpando cache
+RUN php artisan config:clear
+RUN php artisan config:cache
 
-# Comando padrão para executar o servidor PHP-FPM
-CMD ["php-fpm"]
+# Exponha a porta que o servidor PHP-FPM está ouvindo
+EXPOSE 8000
+CMD php artisan serve --host=0.0.0.0 --port=8000
