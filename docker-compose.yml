@@ -15,8 +15,6 @@ services:
     restart: always
     ports:
       - "3000:3000"
-    volumes:
-      - ./front:/var/www/html/front
     networks:
       - app_network
 
