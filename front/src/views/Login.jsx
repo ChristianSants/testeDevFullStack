@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/Auth";
 import LoadingOverlay from "../components/General/LoadingOverlay";
 import Util from "../helpers/Util";
+import InputLogin from "../components/Login/Input";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -55,20 +56,18 @@ const Login = () => {
                     <Image src="/images/senac_logo.png" fluid className="col-md-6 mb-4" />
                     <h1 className="text-primary">Faça Login</h1>
                     <Form onSubmit={handleSubmit}>
-                        <FormControl
+                        <InputLogin 
                             type="email"
                             placeholder="Email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
+                            set={setEmail}
                         />
 
-                        <FormControl
+                        <InputLogin
                             type="password"
                             placeholder="Senha"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
+                            set={setPassword}
                         />
 
                         <div className="w-100 text-center">
