@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 const sendMessage = (icon, title, timer = 5000) => {
     Swal.mixin({
         toast: true,
-        position: 'top-end',
+        position: 'bottom-end',
         showConfirmButton: false,
         timer: timer
     }).fire({
