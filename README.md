@@ -17,6 +17,7 @@ cd testeDevFullStack
 ```
 
 3. **Inicie os Contêineres Docker**
+
 Antes de iniciar os contêineres, verifique se as portas 3000 e 8000 em sua máquina local estão livres. Para iniciar o projeto, execute o seguinte comando:
 ```bash
 docker compose up
