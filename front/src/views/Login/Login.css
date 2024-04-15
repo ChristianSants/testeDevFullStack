@@ -1,0 +1,75 @@
+.login-body {
+    background:
+        linear-gradient(to bottom right, rgba(40, 44, 52, 0.9), rgba(31, 31, 31, 1)),
+        url('../../../public/images/bg-fundo.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.login {
+    width: 100%;
+    height: 100vh;
+}
+
+.login h1 {
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 28px;
+    color: #ffffff !important;
+}
+
+.login img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: auto;
+    margin-top: -25px;
+}
+
+.login .row {
+    background: linear-gradient(to right, #ff8c00, #ff9e28) !important;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 100px rgba(255, 255, 255, 0.1);
+    height: auto;
+    max-width: 300px;
+    margin: auto;
+}
+
+.login .form-control {
+    margin-bottom: 20px;
+    border-radius: 35px !important;
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+}
+
+.login .form-control::placeholder {
+    color: #ffffff;
+}
+
+.login .btn {
+    background-color: #282c34 !important;
+    color: #fff;
+    border: none;
+    border-radius: 35px !important;
+    cursor: pointer;
+    width: 60%;
+}
+
+.login .btn:hover {
+    background-color: #fff !important;
+    color: #282c34;
+    border: none;
+    border-radius: 35px !important;
+    cursor: pointer;
+    width: 60%;
+}
+
+.login .form-control:focus {
+    background-color: transparent;
+    border-color: #ffffff;
+    box-shadow: none;
+    color: #fff;
+}

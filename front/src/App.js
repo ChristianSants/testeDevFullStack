@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
-import Login from './views/Login';
+import Login from './views/Login/Login';
 
 const App = () => {
     return (
