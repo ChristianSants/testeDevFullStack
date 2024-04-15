@@ -34,8 +34,7 @@ const Options = ({userOfList, fetchUsers}) => {
                             Util.sendMessage('error', 'Algum erro ocorreu!');
                         }
                     }).catch(error => {
-                        console.log(error);
-                        Util.sendMessage('error', 'Algum erro ocorreu!');
+                        Util.sendErrorMessage(error);
                     }).finally(() => {
                         setIsLoading(false);
                     })

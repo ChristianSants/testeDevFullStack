@@ -5,6 +5,7 @@ import { Card, Col, Row,  } from "react-bootstrap";
 import MyCard from "../General/MyCard";
 import ModalCreate from "./Modal/Create";
 import Options from "./Options";
+import Util from "../../helpers/Util";
 
 const List = () => {
     const [users, setUsers] = useState([]);
@@ -23,7 +24,7 @@ const List = () => {
                 setUsers(response.data.users)
             })
             .catch(error => {
-                console.log('ERROR', error);
+                Util.sendErrorMessage(error);
             })
             .finally(() => {
                 setIsLoading(false)

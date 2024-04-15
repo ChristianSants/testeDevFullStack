@@ -25,7 +25,7 @@ const CreateModal = ({ show, onClose, onSaved }) => {
                 }
             })
             .catch(error => {
-                Util.sendErrorMessage(error)
+                Util.sendErrorMessage(error);
             })
             .finally(() => {
                 setIsLoading(false);

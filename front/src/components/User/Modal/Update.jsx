@@ -27,7 +27,7 @@ const UpdateModal = ({ show, onClose, user, onUpdate }) => {
                 onClose();
             })
             .catch(error => {
-                Util.sendErrorMessage(error)
+                Util.sendErrorMessage(error);
             })
             .finally(() => {
                 setIsLoading(false); 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, FormControl, Button, Row, Container, Image } from "react-bootstrap";
+import { Form, Button, Row, Container, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/Auth";
 import LoadingOverlay from "../components/General/LoadingOverlay";

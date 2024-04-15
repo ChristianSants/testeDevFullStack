@@ -16,6 +16,13 @@ const sendErrorMessage = (error) => {
     error = error.response
     let errorMessages = [];
 
+    if(error.status == 401) {
+        sendMessage('error', 'Não autorizado')
+        localStorage.removeItem('token');
+        localStorage.removeItem('expired_at');
+        window.location.replace('/login');
+    }
+
     if (error.data && error.data.errors) {
         const errors = error.data.errors;
         Object.values(errors).forEach(errorArray => {
