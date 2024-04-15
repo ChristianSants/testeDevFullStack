@@ -8,7 +8,7 @@ Para iniciar o projeto, certifique-se de ter o Docker e o Docker Compose instala
 
 1. **Clone o Repositório**
 ```bash
-git clone https://github.com/seu-usuario/seu-projeto.git
+git clone https://github.com/ChristianSants/testeDevFullStack.git
 ```
 
 2. **Acessar a Pasta do Projeto**
