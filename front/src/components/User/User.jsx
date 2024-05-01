@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import UserService from "../../services/UserService";
-import LoadingOverlay from "../General/LoadingOverlay";
 import MyCard from "../General/MyCard";
 import List from "./List";
 import Util from "../../helpers/Util";
 import UserModal from "./Modal";
 import Swal from "sweetalert2";
+import { useLoading } from "../../contexts/Loading";
 
 const User = () => {
+    const { setIsLoading } = useLoading();
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
@@ -111,8 +111,6 @@ const User = () => {
 
     return (
         <>
-            <LoadingOverlay loading={isLoading} />
-
             <MyCard
                 title={"Usuários"}
                 textButton={"Cadastrar usuário"}

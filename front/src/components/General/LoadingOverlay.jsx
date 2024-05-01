@@ -1,9 +1,12 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
+import { useLoading } from "../../contexts/Loading";
 
-const LoadingOverlay = ({ loading }) => {
+const LoadingOverlay = () => {
+    const { isLoading } = useLoading();
+
     return (
-        <div hidden={!loading} style={{
+        <div hidden={!isLoading} style={{
             position: "fixed",
             zIndex: 100000,
             top: 0,

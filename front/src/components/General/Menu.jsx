@@ -4,11 +4,12 @@ import { FaUser } from "react-icons/fa6";
 import AuthService from "../../services/Auth";
 import { NavLink, useNavigate } from "react-router-dom";
 import LoadingOverlay from "./LoadingOverlay";
+import { useLoading } from "../../contexts/Loading";
 
 const Menu = () => {
+    const { setIsLoading } = useLoading();
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
-    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const logout = async () => {
@@ -31,7 +32,6 @@ const Menu = () => {
 
     return (
         <>
-            <LoadingOverlay loading={isLoading} />
             <Navbar bg="primary" data-bs-theme="dark" className="px-5">
                 <Navbar.Brand as={NavLink} to="/">Senac</Navbar.Brand>
 

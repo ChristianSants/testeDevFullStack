@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Row, Container, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/Auth";
-import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Util from "../../helpers/Util";
 import InputLogin from "../../components/Login/Input";
 import './Login.css';
+import { useLoading } from "../../contexts/Loading";
 
 const Login = () => {
+    const { setIsLoading } = useLoading();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     // verifica se existe token e manda p dashboard
@@ -51,7 +51,6 @@ const Login = () => {
 
     return (
         <div className="login-body">
-            <LoadingOverlay loading={isLoading} />
             <Container className="login d-flex align-items-center justify-content-center">
                 <Row>
                     <Image src="/images/senac-logo-horizontal.png" fluid className="col-md-6 mb-4" />
