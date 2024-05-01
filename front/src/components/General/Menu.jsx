@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { FaUser } from "react-icons/fa6";
 import AuthService from "../../services/Auth";
 import { NavLink, useNavigate } from "react-router-dom";
-import LoadingOverlay from "./LoadingOverlay";
 import { useLoading } from "../../contexts/Loading";
 
 const Menu = () => {

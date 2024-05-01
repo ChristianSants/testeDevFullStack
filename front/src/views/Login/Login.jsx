@@ -32,7 +32,7 @@ const Login = () => {
 
             const response = await AuthService.logar(email, password);
 
-            if (response.status == 200) {
+            if (response.status === 200) {
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("expired_at", response.data.expired_at);
