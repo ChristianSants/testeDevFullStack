@@ -1,26 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import MyModal from "../General/MyModal";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import { pt } from 'yup-locale-pt';
+
+yup.setLocale(pt);
+
+const schema = (isUpdate) => yup.object({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    role: yup.string().required(),
+    password: !isUpdate
+        ? yup.string().required()
+        : yup.string(), // Se for atualização, não faz validação
+});
 
 const UserModal = ({ show, onClose, onSave, user, isUpdate }) => {
-    const [name, setName] = useState(user ? user.name : "");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState(user ? user.email : "");
-    const [role, setRole] = useState(user ? user.roles[0].name : "Leitor");
+    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
+        resolver: yupResolver(schema(isUpdate))
+    });
 
     useEffect(() => {
-        if (user) {
-            setName(user.name);
-            setEmail(user.email);
-            setRole(user.roles[0].name);
-        }
-    }, [user]);
+        reset();
 
-    const handleSave = () => {
-        if(isUpdate)
-            onSave(name, role) 
+        if (user) {
+            setValue("name", user.name);
+            setValue("email", user.email);
+            setValue("role", user.roles[0].name);
+        }
+    }, [show, user, setValue, reset]);
+
+    const handleSave = (data) => {
+        if (isUpdate)
+            onSave(data.name, data.role);
         else
-            onSave(name, email, password, role);
+            onSave(data.name, data.email, data.password, data.role);
     };
 
     const modalContent = (
@@ -29,44 +45,48 @@ const UserModal = ({ show, onClose, onSave, user, isUpdate }) => {
                 <Form.Label>Nome</Form.Label>
                 <Form.Control
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    {...register("name")}
+                    className={errors.name ? "is-invalid" : ""}
                 />
+                {errors.name && <p className="text-danger">{errors.name?.message}</p>}
             </Form.Group>
 
             {!isUpdate && (
-                <Form.Group controlId="formEmail" className="mb-3">
-                    <Form.Label>E-mail</Form.Label>
-                    <Form.Control
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Form.Group>
-            )}
+                <>
+                    <Form.Group controlId="formEmail" className="mb-3">
+                        <Form.Label>E-mail</Form.Label>
+                        <Form.Control
+                            type="email"
+                            {...register("email", { required: "Campo Obrigatório" })}
+                            className={errors.email ? "is-invalid" : ""}
+                        />
+                        {errors.email && <p className="text-danger">{errors.email?.message}</p>}
+                    </Form.Group>
 
-            {!isUpdate && (
-                <Form.Group controlId="formPassword" className="mb-3">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </Form.Group>
+                    <Form.Group controlId="formPassword" className="mb-3">
+                        <Form.Label>Senha</Form.Label>
+                        <Form.Control
+                            type="password"
+                            {...register("password")}
+                            className={errors.password ? "is-invalid" : ""}
+                        />
+                        {errors.password && <p className="text-danger">{errors.password?.message}</p>}
+                    </Form.Group>
+                </>
             )}
 
             <Form.Group controlId="formRole" className="mb-3">
                 <Form.Label>Permissão</Form.Label>
                 <Form.Control
                     as="select"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
+                    {...register("role")}
+                    className={errors.role ? "is-invalid" : ""}
                 >
                     <option value="Leitor">Leitor</option>
                     <option value="Moderador">Moderador</option>
                     <option value="Administrador">Administrador</option>
                 </Form.Control>
+                {errors.role && <p className="text-danger">{errors.role?.message}</p>}
             </Form.Group>
 
         </Form>
@@ -81,7 +101,7 @@ const UserModal = ({ show, onClose, onSave, user, isUpdate }) => {
         {
             label: isUpdate ? "Atualizar" : "Criar",
             variant: "primary",
-            onClick: handleSave,
+            onClick: handleSubmit(handleSave),
         },
     ];
 
