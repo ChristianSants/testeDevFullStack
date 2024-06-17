@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->user()->tokens()->delete();
-            $token = $request->user()->createToken('auth_token', expiresAt: Carbon::now()->addMinutes(env('EXPIRATION', 30)));
+            $token = $request->user()->createToken('auth_token', expiresAt: Carbon::now()->addMinutes((int) env('EXPIRATION', 30)));
 
             return response()->json([
                 'user' => $this->userService->find($request->user()->id),

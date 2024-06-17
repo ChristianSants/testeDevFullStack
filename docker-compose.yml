@@ -1,22 +1,68 @@
-version: '3'
+version: '3.7'
+
 services:
-  backend:
-    build: ./back
-    container_name: backend
-    restart: always
-    ports:
-      - "8000:8000"
+
+  #back
+  app:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+        - ./back/:/var/www
+    depends_on:
+      - redis
     networks:
       - app_network
-      
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8989:80"
+    volumes:
+      - ./back/:/var/www
+      - ./back/docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - app_network
+
+  db:
+    image: mysql:5.7.22
+    restart: unless-stopped
+    environment:
+        MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+        MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
+        MYSQL_USER: ${DB_USERNAME:-username}
+    volumes:
+      - ./back/.docker/mysql/dbdata:/var/lib/mysql
+    ports:
+      - "3388:3306"
+    networks:
+      - app_network
+
+  redis:
+    image: redis:latest
+    networks:
+      - app_network
+
+  #front
   frontend:
     build: ./front
     container_name: frontend
     restart: always
     ports:
       - "3000:3000"
+    volumes:
+      - ./front/:/app:delegated
+      - /app/node_modules
     networks:
       - app_network
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1 
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true 
 
 networks:
   app_network:

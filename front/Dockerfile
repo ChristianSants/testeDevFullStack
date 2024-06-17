@@ -1,7 +1,7 @@
 FROM node:20.10-alpine
 
 # diretório de trabalho
-WORKDIR /var/www/html/front
+WORKDIR /app
 
 COPY . .
 
