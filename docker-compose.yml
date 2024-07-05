@@ -4,6 +4,7 @@ services:
 
   #back
   app:
+    container_name: app
     build:
       context: ./back
       dockerfile: Dockerfile
@@ -17,13 +18,13 @@ services:
       - app_network
 
   nginx:
-    image: nginx:alpine
-    restart: unless-stopped
+    container_name: nginx
+    build: ./nginx
     ports:
-      - "80:80"
-    volumes:
-      - ./back/:/var/www
-      - ./back/docker/nginx/:/etc/nginx/conf.d/
+      - 80:80
+    depends_on:
+      - app
+      - db
     networks:
       - app_network
 
