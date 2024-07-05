@@ -25,7 +25,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - frontend171-volume:/var/www/html
+      - frontend-volume:/var/www/html
       - ./back/docker/nginx/:/etc/nginx/conf.d/
     networks:
       - app_network
