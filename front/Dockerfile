@@ -10,15 +10,15 @@ RUN rm -rf package-lock.json npm-shrinkwrap.json node_modules
 RUN npm cache clean --force
 
 # Install dependencies
-RUN npm install
+# RUN npm install --legacy-peer-deps
 
 # Copy the current directory contents to the container at /app
 COPY . .
 
 # Build the React app
-RUN npm run build
+# RUN npm run build
 
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
