@@ -6,8 +6,11 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+RUN rm -rf package-lock.json npm-shrinkwrap.json node_modules  
+RUN npm cache clean --force
+
 # Install dependencies
-RUN npm install
+RUN npm i --package-lock-only
 
 # Copy the current directory contents to the container at /app
 COPY . .
