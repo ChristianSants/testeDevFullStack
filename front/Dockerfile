@@ -10,7 +10,7 @@ RUN rm -rf package-lock.json npm-shrinkwrap.json node_modules
 RUN npm cache clean --force
 
 # Install dependencies
-RUN npm i --package-lock-only
+RUN npm install
 
 # Copy the current directory contents to the container at /app
 COPY . .
