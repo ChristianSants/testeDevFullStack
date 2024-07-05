@@ -5,8 +5,8 @@ WORKDIR /app
 
 COPY . .
 
-# Instalando dependências
-RUN npm install --no-audit
+RUN rm -rf node_modules
+RUN npm install
 
 EXPOSE 3000
 
