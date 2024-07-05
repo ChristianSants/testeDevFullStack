@@ -60,10 +60,10 @@ services:
       - /app/node_modules
     networks:
       - app_network
-    environment:
-      - WDS_SOCKET_HOST=127.0.0.1 
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true 
+    # environment:
+    #   - WDS_SOCKET_HOST=127.0.0.1 
+    #   - CHOKIDAR_USEPOLLING=true
+    #   - WATCHPACK_POLLING=true 
 
 networks:
   app_network:
