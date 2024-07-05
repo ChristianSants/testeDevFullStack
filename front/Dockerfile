@@ -8,7 +8,3 @@ COPY . .
 RUN npm install
 
 RUN npm run build
-
-VOLUME /var/www/html
-
-WORKDIR /

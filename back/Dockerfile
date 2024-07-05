@@ -1,44 +1,28 @@
-FROM php:8.3-fpm
+FROM php:8.3-rc-fpm
 
-# set your user name, ex: user=carlos
-ARG user=chris
-ARG uid=1000
+ARG WWWGROUP
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip
+WORKDIR /var/www/html
+ENV TZ=UTC
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd sockets
+RUN apt-get update
+RUN apt-get install -y \
+    gnupg gosu curl ca-certificates zip unzip supervisor sqlite3 libpq-dev libzip-dev zlib1g-dev libpng-dev  \
+    libonig-dev libicu-dev libssl-dev libxml2-dev libcap2-bin dh-python dnsutils librsvg2-bin fswatch
+RUN curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl mbstring dom gd zip bcmath opcache pdo \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pgsql pdo_pgsql \
+    && apt-get -y autoremove  \
+    && apt-get clean  \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
-
-# Install redis
-RUN pecl install -o -f redis \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis
-
-# Set working directory
-WORKDIR /var/www
-
-# Copy custom configurations PHP
-COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
-
-USER $user
-
-EXPOSE 9000
+RUN groupadd --force --gid $WWWGROUP www-data  \
+    && useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 www-data
+COPY ./.ci/start-container /usr/local/bin/start-container
+COPY ./.ci/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./.ci/php.ini /etc/php/8.3/cli/conf.d/99-www-data.ini
+RUN chmod +x /usr/local/bin/start-container
