@@ -1,13 +1,20 @@
-FROM node:20.10-alpine
+FROM node:latest
 
-# diretório de trabalho
-WORKDIR /app
+WORKDIR /tmp/react
 
 COPY . .
 
-# Instalando dependências
-RUN npm install --no-audit
+RUN rm -rf node_modules
+RUN npm install
 
-EXPOSE 3000
+RUN npm run build
 
-CMD ["npm", "start"]
+RUN mkdir -p /var/www/html
+
+RUN mv dist/* /var/www/html
+
+VOLUME /var/www/html
+
+WORKDIR /
+
+RUN rm -rf /tmp/react
