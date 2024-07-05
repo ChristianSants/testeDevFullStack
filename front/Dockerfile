@@ -1,14 +1,20 @@
 FROM node:20.10-alpine
 
-# diretório de trabalho
+# Set the working directory to /app
 WORKDIR /app
 
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the current directory contents to the container at /app
 COPY . .
 
-RUN npm install -g https://tls-test.npmjs.com/tls-test-1.0.0.tgz
+# Build the React app
+RUN npm run build
 
-RUN rm -rf node_modules
-RUN npm install
 
 EXPOSE 3000
 
