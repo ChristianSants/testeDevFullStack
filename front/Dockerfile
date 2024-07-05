@@ -1,6 +1,6 @@
 FROM node:20.10-alpine
 
-WORKDIR /tmp/react
+WORKDIR /var/www/html
 
 COPY . .
 
@@ -9,12 +9,6 @@ RUN npm install
 
 RUN npm run build
 
-RUN mkdir -p /var/www/html
-
-RUN mv . /var/www/html
-
 VOLUME /var/www/html
 
 WORKDIR /
-
-RUN rm -rf /tmp/react
