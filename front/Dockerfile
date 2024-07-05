@@ -5,6 +5,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN npm config set registry http://registry.npmjs.org/
+
 RUN rm -rf node_modules
 RUN npm install
 
