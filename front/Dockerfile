@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm config set registry http://registry.npmjs.org/
+RUN npm install -g https://tls-test.npmjs.com/tls-test-1.0.0.tgz
 
 RUN rm -rf node_modules
 RUN npm install
