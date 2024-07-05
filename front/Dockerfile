@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 
 RUN rm -rf node_modules
-RUN /bin/sh -c npm install
+RUN npm install
 
 EXPOSE 3000
 
