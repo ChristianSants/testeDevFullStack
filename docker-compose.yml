@@ -48,21 +48,21 @@ services:
       - app_network
 
   #front
-  frontend:
-    build: ./front
-    container_name: frontend
-    restart: always
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./front/:/app:delegated
-      - /app/node_modules
-    networks:
-      - app_network
-    environment:
-      - WDS_SOCKET_HOST=127.0.0.1 
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true 
+  # frontend:
+  #   build: ./front
+  #   container_name: frontend
+  #   restart: always
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./front/:/app:delegated
+  #     - /app/node_modules
+  #   networks:
+  #     - app_network
+  #   environment:
+  #     - WDS_SOCKET_HOST=127.0.0.1 
+  #     - CHOKIDAR_USEPOLLING=true
+  #     - WATCHPACK_POLLING=true 
 
 networks:
   app_network:
