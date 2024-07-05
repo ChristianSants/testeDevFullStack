@@ -18,13 +18,13 @@ services:
       - app_network
 
   nginx:
-    container_name: nginx
-    build: ./nginx
+    image: nginx:alpine
+    restart: unless-stopped
     ports:
-      - 80:80
-    depends_on:
-      - app
-      - db
+      - "80:80"
+    volumes:
+      - ./back/:/var/www
+      - ./back/docker/nginx/:/etc/nginx/conf.d/
     networks:
       - app_network
 
