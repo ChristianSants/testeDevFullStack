@@ -15,9 +15,6 @@ RUN npm install --legacy-peer-deps
 # Copy the current directory contents to the container at /app
 COPY . .
 
-# Build the React app
-RUN npm run build
-
 EXPOSE 3000
 
 CMD ["npm", "start"]
