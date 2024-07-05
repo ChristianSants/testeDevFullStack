@@ -19,20 +19,6 @@ services:
     networks:
       - app_network
 
-  nginx:
-    image: nginx:alpine
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    volumes:
-      - frontend-volume:/var/www/html
-      - ./back/docker/nginx/:/etc/nginx/conf.d/
-    networks:
-      - app_network
-    depends_on:
-      - app
-      - frontend
-
   db:
     image: mysql:5.7.22
     restart: unless-stopped
@@ -60,7 +46,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-    # volumes:
+    volumes:
+      - frontend-volume:/var/www/html
     #   - ./front/:/app:delegated
     #   - /app/node_modules
     networks:
@@ -69,6 +56,20 @@ services:
     #   - WDS_SOCKET_HOST=127.0.0.1 
     #   - CHOKIDAR_USEPOLLING=true
     #   - WATCHPACK_POLLING=true 
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - frontend-volume:/var/www/html
+      - ./back/docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - app_network
+    depends_on:
+      - app
+      - frontend
 
 networks:
   app_network:
