@@ -4,7 +4,7 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN rm -rf node_modules
+# RUN rm -rf node_modules
 RUN npm install
 
 RUN npm run build
