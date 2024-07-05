@@ -47,7 +47,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - './front:/var/www/front/'
     #   - ./front/:/app:delegated
     #   - /app/node_modules
     networks:
