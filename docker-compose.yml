@@ -74,3 +74,6 @@ services:
 networks:
   app_network:
     driver: bridge
+
+volumes:
+  frontend-volume:
