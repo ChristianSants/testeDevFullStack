@@ -1,20 +1,20 @@
 FROM node:20.10-alpine
 
-# Set the working directory to /app
-WORKDIR /app
+WORKDIR /tmp/react
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-RUN rm -rf package-lock.json npm-shrinkwrap.json node_modules  
-RUN npm cache clean --force
-
-# Install dependencies
-RUN npm install
-
-# Copy the current directory contents to the container at /app
 COPY . .
 
-EXPOSE 3000
+RUN rm -rf node_modules
+RUN npm install
 
-CMD ["npm", "start"]
+RUN npm run build
+
+RUN mkdir -p /var/www/html
+
+RUN mv dist/* /var/www/html
+
+VOLUME /var/www/html
+
+WORKDIR /
+
+RUN rm -rf /tmp/react
