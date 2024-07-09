@@ -3,19 +3,14 @@ version: '3.7'
 services:
 
   #back
-  app:
-    container_name: app
+  backend:
     build:
       context: ./back
       dockerfile: Dockerfile
-    restart: unless-stopped
-    ports:
-      - "9000:9000"
-    working_dir: /var/www/
     volumes:
-        - ./back/:/var/www
-    depends_on:
-      - redis
+      - ./back:/var/www
+    expose:
+      - "9000"
     networks:
       - app_network
 
@@ -39,38 +34,18 @@ services:
     networks:
       - app_network
 
-  #front
   frontend:
-    build: ./front
-    container_name: frontend
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    # volumes:
-    #   - ./front/:/app:delegated
-    #   - /app/node_modules
-    networks:
-      - app_network
-    # environment:
-    #   - WDS_SOCKET_HOST=127.0.0.1 
-    #   - CHOKIDAR_USEPOLLING=true
-    #   - WATCHPACK_POLLING=true 
-
-  nginx:
-    image: nginx:alpine
-    restart: unless-stopped
-    ports:
-      - "80:80"
+    build:
+      context: ./front
+      dockerfile: Dockerfile
     volumes:
-      - ./front:/var/www/front/
-      - ./back/public:/var/www/html/public:ro
-      - ./back/storage/app/public:/var/www/html/storage/app/public
-      - ./back/docker/nginx/laravel.conf:/etc/nginx/conf.d/default.conf
+      - ./front:/app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
     networks:
       - app_network
-    depends_on:
-      - app
-      - frontend
 
 networks:
   app_network:

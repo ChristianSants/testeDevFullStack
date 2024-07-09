@@ -1,12 +1,19 @@
-FROM node:20.10-alpine
+FROM node:20.10-alpine as build
 
-WORKDIR /var/www/html
+WORKDIR /app
 
+# Install dependencies
+COPY package.json package-lock.json .
+RUN yarn install
+
+# Copy source files and build the application
 COPY . .
+RUN yarn build
 
-# RUN rm -rf node_modules
-RUN npm install
+# Serve the static files using nginx
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+COPY /nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN npm run build
-
-EXPOSE 3000
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
